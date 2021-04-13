@@ -43,6 +43,8 @@
 #include "imap.h"
 #include "crc32.h"
 
+unsigned short srcport, dstport;
+struct pcap_packet_header ph;
 
 struct 	{
 		int PCAPMAGIC;
@@ -666,6 +668,7 @@ int ftp(struct handover *ho, char mode) {
 	//snprintf(hoFtp.srcFile, sizeof(hoFtp.srcFile)-1, "%s", ho->srcFile);
 	hoFtp.inFile = ho->inFile;
 	hoFtp.outFile = ho->outFile;
+	hoFtp.blockSize = ho->blockSize;
 
 	//fill all the parameters into the handover struct
 	if(mode == PASSIVE_FTP)
@@ -1262,18 +1265,18 @@ int main(int argc, char **argv) {
 					if(ho.dstPort == 0)
 						ho.dstPort = 80;
 
-					
-					if(modeString[i+1] == 0x00)
-					{
-						openOutFile(&ho, basename(srcFile), "-http-get.pcap");
-						httpGet(&ho);
-					}
-					else if(modeString[i+1] == '2')
+					if(modeString[i+1] == '2')
 					{
 						openOutFile(&ho, basename(srcFile), "-http2-get.pcap");
 						http2Get(&ho);
 						i++;
 					}
+					else
+					{
+						openOutFile(&ho, basename(srcFile), "-http-get.pcap");
+						httpGet(&ho);
+					}
+					
 					fclose(ho.outFile);
 					ho.dstPort = 0;
 					break;
