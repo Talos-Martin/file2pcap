@@ -1,3 +1,21 @@
+1.28
+	- Bugfix in the http module. The POST should obviously have the client
+	upload data to the server, not the other way round. Fixed now.
+	Bug found and reported by Nick Mavis. Thank you!
+	- Some minor edits in file2pcap.h and file2pcap.c so that file2pcap
+	will compile with -fno-common
+
+1.27
+	Bugfix in the ftp module. Due to an earlier code change, the data to
+	"send" was missing completely in the pcaps. So the ftp module was not 
+	operational. Fixed now. Thanks for reporting and fixing the issue Kelly!
+
+1.26
+	Bugfix in file2pcap.c. The -h flag would occasionally result in a
+	crash when used in combination with other flags, due to a missing
+	default case for an if() clause.
+	Bug reported by Mike Bautista. Thank you Mike!
+
 1.25
 	Added gzip compression for HTTP
 	Added chunked encoding for HTTP
